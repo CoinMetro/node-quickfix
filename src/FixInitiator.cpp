@@ -121,6 +121,10 @@ NAN_METHOD(FixInitiator::New) {
 		}
 	}
 
+		Local<String> doNotSendKey = Nan::New<String>("doNotSend").ToLocalChecked();
+		if(options->Has(doNotSendKey))
+			initiator->mFixApplication->setDoNotSend(options->Get(doNotSendKey)->BooleanValue());
+
 	info.GetReturnValue().Set(info.This());
 }
 

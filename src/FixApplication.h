@@ -23,12 +23,14 @@ class FixApplication : public FIX::Application
 		void setCredentials(fix_credentials* credentials);
 		void setCallbacks(Nan::Persistent<v8::Object>* callbacks);
 		void setCallbackRegistry(std::unordered_set<std::string>* callbackRegistry);
+		void setDoNotSend(bool doNotSend);
 
 	protected:
 		Nan::Persistent<v8::Object>* mCallbacks;
 		std::unordered_set<std::string>* mCallbackRegistry;
 		fix_credentials* mCredentials = NULL;
 		FixLoginProvider* mLoginProvider = NULL;
+		bool mDoNotSend = false;
 
 		virtual void onCreate( const FIX::SessionID& sessionID );
 		virtual void onLogon( const FIX::SessionID& sessionID );

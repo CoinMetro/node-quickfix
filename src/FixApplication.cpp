@@ -89,6 +89,10 @@ void FixApplication::toApp( FIX::Message& message, const FIX::SessionID& session
 throw( FIX::DoNotSend )
 {
 	FixApplication::dispatchEvent(std::string("toApp"), message, sessionID);
+
+	if(mDoNotSend && message.getHeader().isSetField(43) && strcmp(message.getHeader().getField(43).c_str(), "Y") == 0) {
+		throw FIX::DoNotSend();
+	}
 }
 
 void FixApplication::fromApp( const FIX::Message& message, const FIX::SessionID& sessionID )
@@ -134,6 +138,10 @@ void FixApplication::setLogonProvider(FixLoginProvider* loginProvider) {
 
 void FixApplication::setCredentials(fix_credentials* credentials) {
 	mCredentials = credentials;
+}
+
+void FixApplication::setDoNotSend(bool doNotSend) {
+	mDoNotSend = doNotSend;
 }
 
 void FixApplication::setCallbacks(Nan::Persistent<v8::Object>* callbacks) {

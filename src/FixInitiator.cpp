@@ -108,18 +108,27 @@ NAN_METHOD(FixInitiator::New) {
 	  initiator->mCallbackRegistry.insert(*callbackName);
 	}
 
-	if(hasOptions){
-		Local<String> credentialsKey =  Nan::New<String>("credentials").ToLocalChecked();
+		Local<String> credentialsKey = Nan::New<String>("credentials").ToLocalChecked();
 		if(options->Has(credentialsKey)){
 			Local<Object> creds = options->Get(credentialsKey)->ToObject();
 			fix_credentials* credentials = new fix_credentials;
-			String::Utf8Value usernameStr(creds->Get(Nan::New<String>("username").ToLocalChecked())->ToString());
-			String::Utf8Value passwordStr(creds->Get(Nan::New<String>("password").ToLocalChecked())->ToString());
-			credentials->username = std::string(*usernameStr);
-			credentials->password = std::string(*passwordStr);
+			Local<String> usernameKey = Nan::New<String>("username").ToLocalChecked();
+			Local<String> passwordKey = Nan::New<String>("password").ToLocalChecked();
+			Local<String> rawDataKey = Nan::New<String>("rawData").ToLocalChecked();
+			if (creds->Has(usernameKey))	{
+				String::Utf8Value usernameStr(creds->Get(usernameKey)->ToString());
+				credentials->username = std::string(*usernameStr);
+			}
+			if (creds->Has(passwordKey)) {
+				String::Utf8Value passwordStr(creds->Get(passwordKey)->ToString());
+				credentials->password = std::string(*passwordStr);
+			}
+			if (creds->Has(rawDataKey))	{
+				String::Utf8Value rawDataStr(creds->Get(rawDataKey)->ToString());
+				credentials->rawData = std::string(*rawDataStr);
+			}
 			initiator->mFixApplication->setCredentials(credentials);
 		}
-	}
 
 		Local<String> doNotSendKey = Nan::New<String>("doNotSend").ToLocalChecked();
 		if(options->Has(doNotSendKey))

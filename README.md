@@ -7,6 +7,13 @@ Information about QuickFIX can be found at http://quickfixengine.org/. FIX is a 
 
 NOTE: If your application requires SSL support, use the QuickFIX fork here: https://github.com/karopawil/quickfix.git
 
+Binaries provided with node-pre-gyp
+Dockerized build script for statically linked binaries is provided
+Just run 
+sudo docker build -t nodequickfix .
+sudo docker run --name nodequickfix nodequickfix
+docker cp nodequickfix:/output-files .
+
 ###Installing######
 
 1. Download quickfix tar here: http://www.quickfixengine.org/

@@ -8,7 +8,7 @@ var initiatorPropertiesFile = path.resolve(path.join(__dirname, 'support', 'init
 
 describe('initiator', function () {
 
- this.timeout(5000);
+ this.timeout(30000);
 
  it('should throw if not supplied options', function () {
    (function () { new quickfix.initiator(); }).should.throw('FixInitiator requires an options parameter');
@@ -46,7 +46,7 @@ describe('initiator', function () {
 
 describe('acceptor', function () {
 
- this.timeout(5000);
+ this.timeout(15000);
 
  it('should throw if not supplied options', function () {
    (function () { quickfix.acceptor(); }).should.throw('FixAcceptor requires an options parameter');

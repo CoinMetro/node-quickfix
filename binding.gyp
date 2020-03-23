@@ -1,7 +1,8 @@
 {
   'targets': [
     {
-      'target_name': 'NodeQuickfix',
+      'target_name': '<(module_name)',
+      'product_dir': '<(module_path)',
       'sources': [
         'src/Threading.h',
         'src/Dispatcher.h',

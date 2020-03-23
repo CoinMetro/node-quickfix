@@ -2,8 +2,11 @@
   "name": "node-quickfix",
   "version": "2.1.1",
   "scripts": {
-    "configure": "node-gyp configure",
-    "build": "node-gyp build",
+    "configure": "node-pre-gyp configure",
+    "build": "node-pre-gyp build",
+    "package": "node-pre-gyp package",
+    "publish": "node-pre-gyp publish",
+    "install": "node-pre-gyp install --fallback-to-build",
     "test": "mocha"
   },
   "main": "index.js",
@@ -13,6 +16,7 @@
     "email": "kermen.deol@electronifie.com"
   },
   "devDependencies": {
+    "aws-sdk": "^2.644.0",
     "dateformat": "^3.0.2",
     "mocha": "^2.2.5",
     "nan": "^2.8.0",
@@ -24,6 +28,14 @@
     "url": "https://github.com/electronifie/node-quickfix"
   },
   "dependencies": {
-    "bindings": "^1.3.0"
+    "bindings": "^1.3.0",
+    "node-pre-gyp": "^0.14.0"
+  },
+  "binary": {
+    "module_name": "NodeQuickfix",
+    "module_path": "./build/{configuration}/{node_abi}-{platform}-{arch}/",
+    "remote_path": "./{module_name}/v{version}/{configuration}/",
+    "package_name": "{module_name}-v{version}-{node_abi}-{platform}-{arch}.tar.gz",
+    "host": "https://node-pre-gyp-coinmetro.s3.eu-west-2.amazonaws.com"
   }
 }

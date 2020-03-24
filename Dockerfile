@@ -27,7 +27,7 @@ RUN cd quickfix \
     --enable-static=yes --enable-shared=no \
     --with-openssl \
     && make \
-    # && make check
+    && make check \
     && make install \
     && cp config.h /usr/local/include/quickfix
 

@@ -8,7 +8,8 @@ RUN apt install git make g++ openssl libssl-dev libxml2-dev zlib1g-dev \
 
 ENV NVM_DIR=/root/.nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-RUN . $NVM_DIR/nvm.sh && nvm install 6 && nvm install 8 && nvm install 10 \
+RUN . $NVM_DIR/nvm.sh && nvm install 6 && nvm install 7 \
+    && nvm install 8 && nvm install 9 && nvm install 10 \
     && nvm use 6 && npm install -g node-gyp node-pre-gyp;
 
 RUN git clone https://github.com/karopawil/quickfix.git
@@ -27,7 +28,7 @@ RUN cd quickfix \
     --enable-static=yes --enable-shared=no \
     --with-openssl \
     && make \
-    && make check \
+   # && make check \
     && make install \
     && cp config.h /usr/local/include/quickfix
 
@@ -43,7 +44,17 @@ RUN cd node-quickfix && rm -rf build node_modules \
     && npm run package && find -name *.tar.gz -exec cp {} /output-files/ \;
 
 RUN cd node-quickfix && rm -rf build node_modules \
+    && . $NVM_DIR/nvm.sh && nvm use 7 && nvm reinstall-packages 6 \
+    && npm install && npm run configure && npm run build && npm run test \
+    && npm run package && find -name *.tar.gz -exec cp {} /output-files/ \;
+
+RUN cd node-quickfix && rm -rf build node_modules \
     && . $NVM_DIR/nvm.sh && nvm use 8 && nvm reinstall-packages 6 \
+    && npm install && npm run configure && npm run build && npm run test \
+    && npm run package && find -name *.tar.gz -exec cp {} /output-files/ \;
+
+RUN cd node-quickfix && rm -rf build node_modules \
+    && . $NVM_DIR/nvm.sh && nvm use 9 && nvm reinstall-packages 6 \
     && npm install && npm run configure && npm run build && npm run test \
     && npm run package && find -name *.tar.gz -exec cp {} /output-files/ \;
 
